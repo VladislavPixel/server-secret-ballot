@@ -5,6 +5,7 @@ const chalk = require('chalk');
 const moongose = require('mongoose');
 const { exit } = require('node:process');
 const routerChild = require('./routes/router');
+const initializationDB = require('./initialization-db');
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ const PORT: string = config.get('portServer') ?
 	process.env.PORT :
 	'3000';
 
-const MODE = process.env.NODE_ENV;
+const MODE: string | undefined = process.env.NODE_ENV;
 
 APP.use('/api/v1', routerChild); // экземпляр дочернего роутера начинает подхватывать это начало
 
@@ -36,6 +37,8 @@ async function startWork() {
 
 		APP.listen(PORT, function() {
 			console.log(`Server is running at ${config.get('serverUrl')}. His mode: ${MODE}.`);
+
+			initializationDB(MODE);
 		});
 	} catch(err) {
 		console.log('StartWork method error.', err);

@@ -3,7 +3,6 @@ const { Schema } = require('mongoose');
 const types = Schema.Types;
 
 const options = {
-	_id: types.String,
 	name: types.String,
 	description: types.String,
 	dateCreated: types.Number,
@@ -15,6 +14,6 @@ const options = {
 	votingUsers: [ types.String ]
 };
 
-const schemaEvent = new Schema(options);
+const schemaEvent = new Schema(options, { _id: true });
 
 module.exports = schemaEvent;
