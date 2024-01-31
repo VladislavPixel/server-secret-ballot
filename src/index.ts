@@ -26,7 +26,7 @@ if (MODE && MODE === 'production') {
 
 	// Тут должен быть захват статики
 } else {
-	console.log(chalk.red.inverse('Server is running in development mode.'));
+	console.log(chalk.green.inverse('Server is running in development mode.'));
 }
 
 async function startWork() {
@@ -36,7 +36,7 @@ async function startWork() {
 		console.log(chalk.green.inverse('Mongodb has been started...'));
 
 		APP.listen(PORT, function() {
-			console.log(`Server is running at ${config.get('serverUrl')}. His mode: ${MODE}.`);
+			console.log(chalk.green.inverse(`Server is running at ${config.get('serverUrl')}. His mode: ${MODE}.`));
 
 			initializationDB(MODE);
 		});
