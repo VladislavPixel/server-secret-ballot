@@ -1,3 +1,5 @@
+import { IPayloadUnauthorized } from '../types';
+
 const payloadUnauthorized: IPayloadUnauthorized = {
 	error: {
 		message: "Unauthorized",
