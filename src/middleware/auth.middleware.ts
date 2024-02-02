@@ -15,6 +15,11 @@ function authMiddlewareFn(req: any, res: any, next: any) {
 		return res.status(401).send(payloadUnauthorized);
 	}
 
+	const v = instanceAccessTokenService.generateToken({ login: "viva8123", password: "vbn213" });
+
+	console.log(v, 'GENERATE TOKEN');
+	console.log(req.body, "REQ MIDDLEWARE");
+
 	next();
 };
 

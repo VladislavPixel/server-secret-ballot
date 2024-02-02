@@ -1,3 +1,4 @@
+import { IAccount, IEvent, IVoice } from './types';
 const chalk = require('chalk');
 const mongoose = require('mongoose');
 const accountsMockData = require('./mock-data/accounts');
@@ -7,7 +8,7 @@ const accountModel = require('./models/account');
 const eventModel = require('./models/event');
 const voiceModel = require('./models/voice');
 
-async function initializationDB(mode: string) {
+async function initializationDB(mode: string): Promise<void> {
 	try {
 		switch(mode) {
 			case 'production':
@@ -44,6 +45,7 @@ async function initializationDB(mode: string) {
 				console.log(`Your application launch mod - ${mode}. No work has been started.`);
 			break;
 		}
+
 	} catch(err) {
 		console.log(`Error:`, err);
 
@@ -53,14 +55,14 @@ async function initializationDB(mode: string) {
 	}
 };
 
-async function writeToDb(nameCollection: string, mockData: any, model: any): Promise<any> {
+async function writeToDb(nameCollection: string, mockData: IAccount[] | IEvent[] | IVoice[], model: any): Promise<void> {
 	try {
 		await mongoose.connection.dropCollection(nameCollection); // полностью очищаем коллекцию
 
 		let arr = [];
 
 		for(let m = 0; m < mockData.length; m++) {
-			const element = { ...mockData[m] };
+			const element: IAccount | IEvent | IVoice = { ...mockData[m] };
 
 			delete element._id;
 
@@ -70,6 +72,7 @@ async function writeToDb(nameCollection: string, mockData: any, model: any): Pro
 		};
 
 		await Promise.all(arr); // обрабатываем все промисы сохранения документов
+
 	} catch (err) {
 		console.log(chalk.red.inverse(`There is an error in the database record function. Name Collection - ${nameCollection}.`));
 

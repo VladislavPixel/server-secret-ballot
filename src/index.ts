@@ -29,7 +29,7 @@ if (MODE && MODE === 'production') {
 	console.log(chalk.green.inverse('Server is running in development mode.'));
 }
 
-async function startWork() {
+async function startWork(): Promise<void> {
 	try {
 		await moongose.connect(config.get('mongoDbUrl'));
 
@@ -40,6 +40,7 @@ async function startWork() {
 
 			initializationDB(MODE);
 		});
+
 	} catch(err) {
 		console.log('StartWork method error.', err);
 
@@ -51,6 +52,6 @@ async function startWork() {
 
 startWork();
 
-APP.get('/', function(request: typeof express.Request, response: typeof express.Response) {
+APP.get('/', function(request: typeof express.Request, response: typeof express.Response): void {
 	response.send('Express-nodeJS with TypeScript server.');
 });
