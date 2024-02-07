@@ -12,10 +12,39 @@ export interface IPayloadAccountNotFound {
 	}
 };
 
+export interface IPayloadAccountInvalidPassword {
+	error: {
+		message: 'INVALID_PASSWORD_ACCOUNT',
+		code: 400
+	}
+};
+
+export interface IPayloadEventInvalidParams {
+	error: {
+		message: 'EVENT_INVALID_PARAMS',
+		code: 400
+	}
+};
+
+export interface IPayloadVoiceInvalidParams {
+	error: {
+		message: 'VOICE_INVALID_PARAMS',
+		code: 400
+	}
+};
+
+export interface IPayloadEventNotFound {
+	error: {
+		message: 'EVENT_NOT_FOUND',
+		code: 400
+	}
+};
+
 export interface IAccount {
 	_id?: string | undefined;
 	login: string;
 	password: string;
+	role: string;
 };
 
 export interface IEvent {
@@ -39,10 +68,19 @@ export interface IVoice {
 	denied: boolean;
 };
 
-export interface IResultGenerateToken {
+export interface IDataProp {
+	[key: string]: PropertyKey;
+};
 
+export interface IResultGenerateToken {
+	accessToken: string;
+	refreshToken: string;
+	expiresIn: number;
 };
 
 export interface IAccessTokenService {
 	expiresInValue: number;
+	generateToken(controlData: IDataProp): IResultGenerateToken;
+	saveRefreshToken(tokenR: string, accountId: string): Promise<string>;
+	validateAccessToken(token: string): any;
 };

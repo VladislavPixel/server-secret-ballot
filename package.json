@@ -11,10 +11,10 @@
   "type": "commonjs",
   "keywords": [
     "TypeScript",
-		"Node",
+    "Node",
     "NodeJS",
     "Express",
-		"ExpressJS",
+    "ExpressJS",
     "JavaScript",
     "voting-app",
     "TS",
@@ -24,6 +24,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "chalk": "^4.1.2",
     "config": "^3.3.10",
     "dotenv": "^16.4.0",

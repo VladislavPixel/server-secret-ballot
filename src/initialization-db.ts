@@ -1,4 +1,4 @@
-import { IAccount, IEvent, IVoice } from './types';
+import type { IAccount, IEvent, IVoice } from './types';
 const chalk = require('chalk');
 const mongoose = require('mongoose');
 const accountsMockData = require('./mock-data/accounts');

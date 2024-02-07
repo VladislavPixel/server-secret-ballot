@@ -5,12 +5,11 @@ const chalk = require('chalk');
 const routerAccounts = express.Router({ mergeParams: true });
 
 routerAccounts.get('/', async (req: typeof express.Request, res: typeof express.Response) => {
-	console.log('REQUEST HEADERS');
-
 	try {
 		const accountsData = await accountModel.find();
 
 		res.status(200).send(accountsData);
+
 	} catch(err) {
 		console.log(chalk.red.inverse('Error receiving accounts.'));
 

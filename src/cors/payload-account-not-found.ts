@@ -1,8 +1,8 @@
-import { IPayloadAccountNotFound } from '../types';
+import type { IPayloadAccountNotFound } from '../types';
 
 const payloadAccountNotFound: IPayloadAccountNotFound = {
 	error: {
-		message: "ACCOUNT_NOT_FOUND",
+		message: 'ACCOUNT_NOT_FOUND',
 		code: 400
 	}
 };

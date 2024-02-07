@@ -6,6 +6,7 @@ const moongose = require('mongoose');
 const { exit } = require('node:process');
 const routerChild = require('./routes/router');
 const initializationDB = require('./initialization-db');
+const bodyParser = require('body-parser');
 
 dotenv.config();
 
@@ -19,6 +20,7 @@ const PORT: string = config.get('portServer') ?
 
 const MODE: string | undefined = process.env.NODE_ENV;
 
+APP.use(bodyParser.json({ strict: false })); // для добавления body в request
 APP.use('/api/v1', routerChild); // экземпляр дочернего роутера начинает подхватывать это начало
 
 if (MODE && MODE === 'production') {
