@@ -18,7 +18,7 @@ routerEvents.get('/', async (req: typeof express.Request, res: typeof express.Re
 
 		console.log(`Error: ${err}.`);
 
-		res.status(400).send([]);
+		res.status(500).send([]);
 	}
 });
 
@@ -33,7 +33,7 @@ routerEvents.get('/:id', async (req: typeof express.Request, res: typeof express
 		const searchEventById = await eventModel.findOne({ _id: id });
 
 		if (!searchEventById) {
-			return res.status(400).send(payloadEventNotFound);
+			return res.status(404).send(payloadEventNotFound);
 		}
 
 		res.status(200).send(searchEventById);
@@ -43,7 +43,7 @@ routerEvents.get('/:id', async (req: typeof express.Request, res: typeof express
 
 		console.log(`Error: ${err}.`);
 
-		res.status(400).send({});
+		res.status(500).send({});
 	}
 });
 

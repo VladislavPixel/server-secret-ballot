@@ -2,7 +2,7 @@ import type { IPayloadEventInvalidParams } from '../types';
 
 const payloadEventInvalidParams: IPayloadEventInvalidParams = {
 	error: {
-		message: 'EVENT_INVALID_PARAMS',
+		message: 'INVALID_PARAMS_EVENT',
 		code: 400
 	}
 };

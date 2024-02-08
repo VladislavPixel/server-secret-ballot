@@ -1,14 +1,35 @@
 export interface IPayloadUnauthorized {
 	error: {
-		message: "Unauthorized";
+		message: 'Unauthorized';
 		code: 401;
 	}
 };
 
+export interface IPayloadNotDeleteAdminAccount {
+	error: {
+		message: 'NOT_DELETE-ADMIN_ACCOUNT',
+		code: 400
+	}
+};
+
+export interface IPayloadAccountInvalidParams {
+	error: {
+		message: 'INVALID_PARAMS_ACCOUNT',
+		code: 400
+	}
+};
+
+export interface IPayloadAccountInvalidPayloadRequest {
+	error: {
+		message: 'INVALID_PAYLOAD-REQUEST_ACCOUNT',
+		code: 400
+	}
+}
+
 export interface IPayloadAccountNotFound {
 	error: {
-		message: "ACCOUNT_NOT_FOUND";
-		code: 400;
+		message: 'NOT_FOUND_ACCOUNT';
+		code: 404;
 	}
 };
 
@@ -21,21 +42,28 @@ export interface IPayloadAccountInvalidPassword {
 
 export interface IPayloadEventInvalidParams {
 	error: {
-		message: 'EVENT_INVALID_PARAMS',
+		message: 'INVALID_PARAMS_EVENT',
 		code: 400
 	}
 };
 
 export interface IPayloadVoiceInvalidParams {
 	error: {
-		message: 'VOICE_INVALID_PARAMS',
+		message: 'INVALID_PARAMS_VOICE',
 		code: 400
 	}
 };
 
 export interface IPayloadEventNotFound {
 	error: {
-		message: 'EVENT_NOT_FOUND',
+		message: 'NOT_FOUND_EVENT',
+		code: 404
+	}
+};
+
+export interface IPayloadEventIsFinished {
+	error: {
+		message: 'IS_FINISHED_EVENT',
 		code: 400
 	}
 };

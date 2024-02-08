@@ -17,7 +17,7 @@ routerAuth.post('/signIn', async (req: typeof express.Request, res: typeof expre
 		const accountData = await accountModel.findOne({ login });
 
 		if (!accountData) {
-			return res.status(400).send(payloadAccountNotFound);
+			return res.status(404).send(payloadAccountNotFound);
 		}
 
 		// проверяем, совпадает ли присланный пароль с запросом с хешом пароля учетки, которая уже есть в базе
@@ -43,7 +43,7 @@ routerAuth.post('/signIn', async (req: typeof express.Request, res: typeof expre
 
 		console.log(`Error: ${err}.`);
 
-		res.status(400).send({});
+		res.status(500).send({});
 	}
 });
 

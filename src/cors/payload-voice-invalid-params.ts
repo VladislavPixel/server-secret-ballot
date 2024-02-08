@@ -2,7 +2,7 @@ import type { IPayloadVoiceInvalidParams } from '../types';
 
 const payloadVoiceInvalidParams: IPayloadVoiceInvalidParams = {
 	error: {
-		message: 'VOICE_INVALID_PARAMS',
+		message: 'INVALID_PARAMS_VOICE',
 		code: 400
 	}
 };

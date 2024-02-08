@@ -1,59 +1,66 @@
-import type { IEvent, IVoice, IPayloadVoiceInvalidParams, IPayloadEventNotFound } from '../types';
+import type { IPayloadVoiceInvalidParams, IPayloadEventNotFound, IPayloadEventIsFinished, IPayloadUnauthorized } from '../types';
 const express = require('express');
 const voicesModel = require('../models/voice');
 const eventModel = require('../models/event');
+const accountModel = require('../models/account');
 const chalk = require('chalk');
 const payloadVoiceInvalidParams: IPayloadVoiceInvalidParams = require('../cors/payload-voice-invalid-params');
 const payloadEventNotFound: IPayloadEventNotFound = require('../cors/payload-event-not-found');
+const payloadEventIsFinished: IPayloadEventIsFinished = require('../cors/payload-event-is-finished');
+const payloadUnauthorized: IPayloadUnauthorized = require('../cors/payload-unauthorized');
 
 const routerVoices = express.Router({ mergeParams: true });
 
-//routerVoices.get('/', async (req: typeof express.Request, res: typeof express.Response) => {
-//	try {
-//		const voicesData = await voicesModel.find();
-
-//		res.status(200).send(voicesData);
-
-//	} catch(err) {
-//		console.log(chalk.red.inverse('Error receiving voices.'));
-
-//		console.log(`Error: ${err}.`);
-
-//		res.status(400).send([]);
-//	}
-//});
-
-routerVoices.post('/voice-create', async (req: typeof express.Request, res: typeof express.Response) => {
+routerVoices.post('/voice/create', async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
-		const voiceBody: IVoice | undefined = req.body;
+		const voiceBody = req.body;
 
 		if (!voiceBody) {
 			return res.status(400).send(payloadVoiceInvalidParams);
 		}
 
-		const searchEvent: IEvent = await eventModel.findOne({ _id: voiceBody.idEvent });
+		const searchEvent = await eventModel.findOne({ _id: voiceBody.idEvent });
 
 		if (!searchEvent) {
-			return res.status(400).send(payloadEventNotFound);
+			return res.status(404).send(payloadEventNotFound);
 		}
 
-		if (searchEvent.isFinished) {
-			return
+		const currentNumberVotes: number = searchEvent.accepted + searchEvent.denied;
+
+		// если стату эвента завершенный, то голосование уже невозможно
+		if (searchEvent.isFinished || (searchEvent.numberOfVotes === currentNumberVotes)) {
+			return res.status(400).send(payloadEventIsFinished);
 		}
-		// ПРОВЕРИТЬ ВСЕ ЛИ СХОДИТСЯ, возможно ли голосование или уже можно закрывать
+
+		const { _id } = req.userData;
+
+		const currentUser = await accountModel.findOne({ _id });
+
+		if (currentUser && currentUser.role === 'admin') {
+			return res.status(401).send(payloadUnauthorized);
+		}
 
 		const voiceD = await voicesModel.create(voiceBody);
 
-		await eventModel.
+		searchEvent.accepted = voiceBody.accepted ? searchEvent.accepted + 1 : searchEvent.accepted;
 
-		res.status(201).send(voiceD);
+		searchEvent.denied = voiceBody.denied ? searchEvent.denied + 1 : searchEvent.denied;
+
+		searchEvent.isFinished = searchEvent.accepted + searchEvent.denied === searchEvent.numberOfVotes ? true : false;
+
+		await searchEvent.save();
+
+		res.status(201).send({
+			voice: voiceD,
+			event: searchEvent
+		});
 
 	} catch(err) {
 		console.log(chalk.red.inverse('Error create voice in bd.'));
 
 		console.log(`Error: ${err}.`);
 
-		res.status(400).send({});
+		res.status(500).send({});
 	}
 });
 
