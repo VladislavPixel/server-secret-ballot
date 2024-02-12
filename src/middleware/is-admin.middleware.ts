@@ -1,11 +1,12 @@
-import type { IPayloadUnauthorized, IAccessTokenService } from '../types';
+import type { IPayloadUnauthorized, IAccessTokenService, IPayloadAccountNotFound } from '../types';
 const payloadUnauthorized: IPayloadUnauthorized = require('../cores/payload-unauthorized');
 const instanceAccessTokenService: IAccessTokenService = require('../services/access-token.service');
 const chalk = require('chalk');
+const accountModel = require('../models/account');
+const payloadAccountNotFound: IPayloadAccountNotFound = require('../cores/payload-account-not-found');
 
-// ПОДУМАТЬ КАК СДЕЛАТЬ АСИНХРОННЫЙ МИДЛЕВАРЕ НА ПРОВЕРКУ АДМИНА И КАК ЕГО ВСТАВЛЯТЬ
-function isAdminMiddlewareFn(req: any, res: any, next: any) {
-	console.log('Middleware is-admin is working!!!');
+async function isAdminMiddlewareFn(req: any, res: any, next: any) {
+	console.log('Middleware is-admin is working!!! isAdminMiddlewareFn');
 
 	if (req.method === 'OPTIONS') {
 		return next();
@@ -29,7 +30,13 @@ function isAdminMiddlewareFn(req: any, res: any, next: any) {
 
 		const { _id } = data;
 
-		//const currentUser = await accountModel.findOne({ _id });
+		const currentUser = await accountModel.findOne({ _id });
+
+		if (!currentUser) {
+			return res.status(404).send(payloadAccountNotFound);
+		}
+
+		req.userRoleInfo = currentUser.role;
 
 		req.userData = data;
 

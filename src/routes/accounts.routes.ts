@@ -10,10 +10,12 @@ const payloadUnauthorized: IPayloadUnauthorized = require('../cores/payload-unau
 const payloadAccountInvalidPayloadReq: IPayloadAccountInvalidPayloadRequest = require('../cores/payload-account-invalid-payload-req');
 const payloadAccountNotDeleteAdmin = require('../cores/payload-account-not-delete-admin');
 const defaultAccount: IAccount = require('../cores/default-account');
+const isAdminMiddlewareFn = require('../middleware/is-admin.middleware');
 
 const routerAccounts = express.Router({ mergeParams: true });
 
-routerAccounts.get('/', async (req: typeof express.Request, res: typeof express.Response) => {
+// ПРОВЕРИТЬ КАК ОТРАБАТЫВАЕТ И ПОСТАРАТЬСЯ ИЗБАВИТЬСЯ ОТ ВИСЯЧЕГО ПРОМИСА
+routerAccounts.get('/', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
 		const accountsData = await accountModel.find();
 

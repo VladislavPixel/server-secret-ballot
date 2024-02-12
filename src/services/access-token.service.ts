@@ -53,7 +53,7 @@ class AccessTokenService implements IAccessTokenService {
 		try {
 			return await tokenModel.findOne({ refreshToken: refreshToken });
 		} catch (err) {
-			console.log(err, "Error search refresh token. findRefreshInCollection");
+			console.log(err, 'Error search refresh token. findRefreshInCollection');
 
 			console.log(chalk.red.inverse('Error find refresh token db.'));
 
