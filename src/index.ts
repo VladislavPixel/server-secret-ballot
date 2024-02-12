@@ -8,6 +8,7 @@ const routerChild = require('./routes/router');
 const initializationDB = require('./initialization-db');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('node:path');
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ const PORT: string = config.get('portServer') ?
 const MODE: string | undefined = process.env.NODE_ENV;
 
 const corsOptions ={
-	origin: "*",
+	origin: '*',
 	credentials: true,
 	optionSuccessStatus: 200
 };
@@ -34,7 +35,17 @@ APP.use('/api/v1', routerChild); // экземпляр дочернего роу
 if (MODE && MODE === 'production') {
 	console.log(chalk.green.inverse('Server is running in production mode.'));
 
-	// Тут должен быть захват статики
+	// Тут цепляется статика клиента
+
+	const pathBaseStatic = path.join(__dirname, 'client');
+
+	APP.use('/', express.static(pathBaseStatic)); // определяем каталог поиска
+
+	const staticHTML = path.join(pathBaseStatic, 'index.html'); // путь до файла бандла клиента
+
+	APP.get('*', (req: any, res: any): void => { // путь статики, на который реагирует express
+		res.status(200).sendFile(staticHTML)
+	});
 } else {
 	console.log(chalk.green.inverse('Server is running in development mode.'));
 }
@@ -61,7 +72,3 @@ async function startWork(): Promise<void> {
 }
 
 startWork();
-
-APP.get('/', function(request: typeof express.Request, response: typeof express.Response): void {
-	response.send('Express-nodeJS with TypeScript server.');
-});

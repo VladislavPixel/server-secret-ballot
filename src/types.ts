@@ -124,4 +124,6 @@ export interface IAccessTokenService {
 	generateToken(controlData: IDataProp): IResultGenerateToken;
 	saveRefreshToken(tokenR: string, accountId: string): Promise<string>;
 	validateAccessToken(token: string): IResultValidateToken;
+	validateRefresh(refreshToken: string): IResultValidateToken;
+	findRefreshInCollection(refreshToken: string): Promise<any>;
 };

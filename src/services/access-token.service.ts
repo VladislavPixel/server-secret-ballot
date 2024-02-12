@@ -36,6 +36,31 @@ class AccessTokenService implements IAccessTokenService {
 		}
 	}
 
+	validateRefresh(refreshToken: string): IResultValidateToken {
+		try {
+			return jwt.verify(refreshToken, config.get('refreshTokenSecret'));
+
+		} catch (err) {
+			console.log(err, 'Error service token. validateRefresh');
+
+			console.log(chalk.red.inverse('Error validate refresh token.'));
+
+			throw new Error('Error validate refresh token');
+		}
+	}
+
+	async findRefreshInCollection(refreshToken: string) {
+		try {
+			return await tokenModel.findOne({ refreshToken: refreshToken });
+		} catch (err) {
+			console.log(err, "Error search refresh token. findRefreshInCollection");
+
+			console.log(chalk.red.inverse('Error find refresh token db.'));
+
+			throw new Error('Error find refresh token in DB.');
+		}
+	}
+
 	async saveRefreshToken(tokenR: string, accountId: string): Promise<string> {
 		try {
 			// функция, которая поддерживает авторизацию; если в базе есть рефреш токен для конкретного юзера, то мы его обновляем; если еще нет (авторизация впервые, то мы создаем инстанс этой авторизации)
