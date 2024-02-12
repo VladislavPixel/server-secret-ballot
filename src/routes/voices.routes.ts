@@ -1,13 +1,14 @@
-import type { IPayloadVoiceInvalidParams, IPayloadEventNotFound, IPayloadEventIsFinished, IPayloadUnauthorized } from '../types';
+import type { IPayloadVoiceInvalidParams, IPayloadEventNotFound, IPayloadEventIsFinished, IPayloadUnauthorized, IPayloadAccountNotFound } from '../types';
 const express = require('express');
 const voicesModel = require('../models/voice');
 const eventModel = require('../models/event');
 const accountModel = require('../models/account');
 const chalk = require('chalk');
-const payloadVoiceInvalidParams: IPayloadVoiceInvalidParams = require('../cors/payload-voice-invalid-params');
-const payloadEventNotFound: IPayloadEventNotFound = require('../cors/payload-event-not-found');
-const payloadEventIsFinished: IPayloadEventIsFinished = require('../cors/payload-event-is-finished');
-const payloadUnauthorized: IPayloadUnauthorized = require('../cors/payload-unauthorized');
+const payloadVoiceInvalidParams: IPayloadVoiceInvalidParams = require('../cores/payload-voice-invalid-params');
+const payloadEventNotFound: IPayloadEventNotFound = require('../cores/payload-event-not-found');
+const payloadEventIsFinished: IPayloadEventIsFinished = require('../cores/payload-event-is-finished');
+const payloadUnauthorized: IPayloadUnauthorized = require('../cores/payload-unauthorized');
+const payloadAccountNotFound: IPayloadAccountNotFound = require('../cores/payload-account-not-found');
 
 const routerVoices = express.Router({ mergeParams: true });
 
@@ -27,7 +28,7 @@ routerVoices.post('/voice/create', async (req: typeof express.Request, res: type
 
 		const currentNumberVotes: number = searchEvent.accepted + searchEvent.denied;
 
-		// если стату эвента завершенный, то голосование уже невозможно
+		// если статус эвента завершенный, то голосование уже невозможно
 		if (searchEvent.isFinished || (searchEvent.numberOfVotes === currentNumberVotes)) {
 			return res.status(400).send(payloadEventIsFinished);
 		}
@@ -61,6 +62,42 @@ routerVoices.post('/voice/create', async (req: typeof express.Request, res: type
 		console.log(`Error: ${err}.`);
 
 		res.status(500).send({});
+	}
+});
+
+routerVoices.post('/voice/:id', async (req: typeof express.Request, res: typeof express.Response) => {
+	try {
+		const { id } = req.params; // передается Id event
+
+		if (!id) {
+			return res.status(400).send(payloadVoiceInvalidParams);
+		}
+
+		const { _id } = req.userData;
+
+		const currentUser = await accountModel.findOne({ _id });
+
+		if (!currentUser) {
+			return res.status(404).send(payloadAccountNotFound);
+		}
+
+		const requestBody = req.body;
+
+		if (requestBody.hasOwnProperty('userId')) {
+			const voiceTarget = await voicesModel.findOne({ idEvent: id, userId: requestBody.userId }); // двойной фильтр
+
+			return res.status(200).send([voiceTarget]);
+		}
+
+		const voicesResult = await voicesModel.find({ idEvent: id });
+
+		return res.status(200).send(voicesResult);
+	} catch(err) {
+		console.log(chalk.red.inverse('Error get() operation by id.'));
+
+		console.log(`Error: ${err}.`);
+
+		res.status(500).send([]);
 	}
 });
 

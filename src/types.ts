@@ -47,6 +47,13 @@ export interface IPayloadEventInvalidParams {
 	}
 };
 
+export interface IPayloadEventInvalidPayloadRequest {
+	error: {
+		message: 'INVALID_PAYLOAD-REQUEST_EVENT',
+		code: 400
+	}
+};
+
 export interface IPayloadVoiceInvalidParams {
 	error: {
 		message: 'INVALID_PARAMS_VOICE',
@@ -106,9 +113,15 @@ export interface IResultGenerateToken {
 	expiresIn: number;
 };
 
+export interface IResultValidateToken {
+	_id: string;
+	iat: number;
+	exp: number;
+};
+
 export interface IAccessTokenService {
 	expiresInValue: number;
 	generateToken(controlData: IDataProp): IResultGenerateToken;
 	saveRefreshToken(tokenR: string, accountId: string): Promise<string>;
-	validateAccessToken(token: string): any;
+	validateAccessToken(token: string): IResultValidateToken;
 };

@@ -1,10 +1,10 @@
 import type { IPayloadUnauthorized, IAccessTokenService } from '../types';
-const payloadUnauthorized: IPayloadUnauthorized = require('../cors/payload-unauthorized');
+const payloadUnauthorized: IPayloadUnauthorized = require('../cores/payload-unauthorized');
 const instanceAccessTokenService: IAccessTokenService = require('../services/access-token.service');
 const chalk = require('chalk');
 
 function authMiddlewareFn(req: any, res: any, next: any) {
-	console.log('Middleware auth is working!!!');
+	console.log('Middleware auth is working!!! authMiddlewareFn');
 
 	if (req.method === 'OPTIONS') {
 		return next();
@@ -33,9 +33,9 @@ function authMiddlewareFn(req: any, res: any, next: any) {
 	} catch (err) {
 		req.userData = null;
 
-		console.log(chalk.red.inverse('Error when decoding the token.'));
+		console.log(chalk.red.inverse('Error when decoding the token. authMiddlewareFn.'));
 
-		console.log(`Error decoding token.`, err);
+		console.log(`Error decoding token. authMiddlewareFn.`, err);
 
 		res.status(401).send(payloadUnauthorized);
 	}

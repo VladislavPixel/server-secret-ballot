@@ -1,6 +1,6 @@
 import type { IPayloadAccountNotFound, IPayloadAccountInvalidPassword, IAccessTokenService } from '../types';
-const payloadAccountNotFound: IPayloadAccountNotFound = require('../cors/payload-account-not-found');
-const payloadAccountInvalidPassword: IPayloadAccountInvalidPassword = require('../cors/payload-account-invalid-password');
+const payloadAccountNotFound: IPayloadAccountNotFound = require('../cores/payload-account-not-found');
+const payloadAccountInvalidPassword: IPayloadAccountInvalidPassword = require('../cores/payload-account-invalid-password');
 const chalk = require('chalk');
 const express = require('express');
 const accountModel = require('../models/account');

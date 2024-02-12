@@ -1,5 +1,5 @@
 import type { IPayloadUnauthorized, IAccessTokenService } from '../types';
-const payloadUnauthorized: IPayloadUnauthorized = require('../cors/payload-unauthorized');
+const payloadUnauthorized: IPayloadUnauthorized = require('../cores/payload-unauthorized');
 const instanceAccessTokenService: IAccessTokenService = require('../services/access-token.service');
 const chalk = require('chalk');
 

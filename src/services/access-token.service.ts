@@ -1,4 +1,4 @@
-import type { IDataProp, IResultGenerateToken, IAccessTokenService } from '../types';
+import type { IDataProp, IResultGenerateToken, IAccessTokenService, IResultValidateToken } from '../types';
 const config = require('config');
 const jwt = require('jsonwebtoken');
 const chalk = require('chalk');
@@ -23,7 +23,7 @@ class AccessTokenService implements IAccessTokenService {
 		});
 	}
 
-	validateAccessToken(token: string): any {
+	validateAccessToken(token: string): IResultValidateToken {
 		try {
 			return jwt.verify(token, config.get('accessTokenSecret'));
 
