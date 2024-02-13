@@ -9,6 +9,7 @@ const accountModel = require('../models/account');
 const payloadAccountNotFound: IPayloadAccountNotFound = require('../cores/payload-account-not-found');
 const payloadUnauthorized: IPayloadUnauthorized = require('../cores/payload-unauthorized');
 const defaultEvent: IEvent = require('../cores/default-event');
+const isAdminMiddlewareFn = require('../middleware/is-admin.middleware');
 
 const routerEvents = express.Router({ mergeParams: true });
 
@@ -52,7 +53,7 @@ routerEvents.get('/:id', async (req: typeof express.Request, res: typeof express
 	}
 });
 
-routerEvents.post('/event/create', async (req: typeof express.Request, res: typeof express.Response) => {
+routerEvents.post('/event/create', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
 		let requestBody = req.body;
 
@@ -89,7 +90,7 @@ routerEvents.post('/event/create', async (req: typeof express.Request, res: type
 	}
 });
 
-routerEvents.delete('/event/delete/:id', async (req: typeof express.Request, res: typeof express.Response) => {
+routerEvents.delete('/event/delete/:id', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
 		const { id } = req.params;
 
@@ -127,7 +128,7 @@ routerEvents.delete('/event/delete/:id', async (req: typeof express.Request, res
 	}
 });
 
-routerEvents.post('/event/update/:id', async (req: typeof express.Request, res: typeof express.Response) => {
+routerEvents.post('/event/update/:id', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
 		const { id } = req.params;
 

@@ -14,7 +14,6 @@ const isAdminMiddlewareFn = require('../middleware/is-admin.middleware');
 
 const routerAccounts = express.Router({ mergeParams: true });
 
-// ПРОВЕРИТЬ КАК ОТРАБАТЫВАЕТ И ПОСТАРАТЬСЯ ИЗБАВИТЬСЯ ОТ ВИСЯЧЕГО ПРОМИСА
 routerAccounts.get('/', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
 		const accountsData = await accountModel.find();
@@ -30,7 +29,7 @@ routerAccounts.get('/', isAdminMiddlewareFn, async (req: typeof express.Request,
 	}
 });
 
-routerAccounts.post('/account/create', async (req: typeof express.Request, res: typeof express.Response) => {
+routerAccounts.post('/account/create', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
 		const { login, password } = req.body;
 
@@ -65,7 +64,7 @@ routerAccounts.post('/account/create', async (req: typeof express.Request, res: 
 	}
 });
 
-routerAccounts.delete('/account/delete/:id', async (req: typeof express.Request, res: typeof express.Response) => {
+routerAccounts.delete('/account/delete/:id', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
 		const { id } = req.params;
 
@@ -107,7 +106,7 @@ routerAccounts.delete('/account/delete/:id', async (req: typeof express.Request,
 	}
 });
 
-routerAccounts.post('/account/update/:id', async (req: typeof express.Request, res: typeof express.Response) => {
+routerAccounts.post('/account/update/:id', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
 		const { id } = req.params;
 

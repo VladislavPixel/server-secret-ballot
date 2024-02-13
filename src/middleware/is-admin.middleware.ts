@@ -5,7 +5,15 @@ const chalk = require('chalk');
 const accountModel = require('../models/account');
 const payloadAccountNotFound: IPayloadAccountNotFound = require('../cores/payload-account-not-found');
 
-async function isAdminMiddlewareFn(req: any, res: any, next: any) {
+const handlerError = (res: any, err: any): void => {
+	console.log(chalk.red.inverse('Error is-admin middleware.'));
+
+	console.log(`Error is-admin.`, err);
+
+	res.status(401).send(payloadUnauthorized);
+};
+
+function isAdminMiddlewareFn(req: any, res: any, next: any) {
 	console.log('Middleware is-admin is working!!! isAdminMiddlewareFn');
 
 	if (req.method === 'OPTIONS') {
@@ -30,24 +38,28 @@ async function isAdminMiddlewareFn(req: any, res: any, next: any) {
 
 		const { _id } = data;
 
-		const currentUser = await accountModel.findOne({ _id });
+		accountModel.findOne({ _id })
+			.then((currentUser: any): void => {
+				if (!currentUser) {
+					return res.status(404).send(payloadAccountNotFound);
+				}
 
-		if (!currentUser) {
-			return res.status(404).send(payloadAccountNotFound);
-		}
+				req.userRoleInfo = currentUser.role;
 
-		req.userRoleInfo = currentUser.role;
+				req.userData = data;
 
-		req.userData = data;
+				if (req.userRoleInfo !== 'admin') {
+					return res.status(401).send(payloadUnauthorized);
+				}
 
-		next();
+				next();
+			})
+			.catch((err: any): void => {
+				handlerError(res, err);
+			});
 
 	} catch (err) {
-		console.log(chalk.red.inverse('Error is-admin middleware.'));
-
-		console.log(`Error is-admin.`, err);
-
-		res.status(401).send(payloadUnauthorized);
+		handlerError(res, err);
 	}
 };
 
