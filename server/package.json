@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "cross-env NODE_ENV=production node dist/index.js",
-    "dev": "cross-env NODE_ENV=development nodemon src/index.ts"
+    "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
+		"eslint": "npx eslint ."
   },
   "type": "commonjs",
   "keywords": [
@@ -39,8 +40,10 @@
     "@types/node": "^20.11.6",
     "concurrently": "^8.2.2",
     "cross-env": "^7.0.3",
+    "eslint": "^8.56.0",
     "nodemon": "^3.0.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^7.0.1"
   }
 }

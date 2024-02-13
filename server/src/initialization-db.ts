@@ -17,15 +17,16 @@ async function initializationDB(mode: string): Promise<void> {
 		const voicesCollectionName = voiceModel.collection.collectionName;
 
 		switch(mode) {
-			case 'production':
+			case 'production': {
 				// в этом моде мы проводим очистку базы и инициализацию коллекций
 				writeToDb(accountsCollectionName, [accountsMockData[accountsMockData.length - 1]], accountModel);
 				writeToDb(eventsCollectionName, [], eventModel);
 				writeToDb(voicesCollectionName, [], voiceModel);
 
 				console.log(`Your application launch mod - ${mode}. In production, the database is not initialized with data.`);
-			break;
-			case 'development':
+				break;
+			}
+			case 'development': {
 				const accountsListDoc = await accountModel.find(); // проверяем сколько записанных документов этой коллекции уже имеется в базе
 
 				if (accountsListDoc.length < accountsMockData.length) { // если в базе данных менше чем в моке, значит надо записать моками
@@ -45,10 +46,12 @@ async function initializationDB(mode: string): Promise<void> {
 				}
 
 				console.log(chalk.green.inverse(`Database initialization was successful. His mode initialization - ${mode}.`));
-			break;
-			default:
+				break;
+			}
+			default: {
 				console.log(`Your application launch mod - ${mode}. No work has been started.`);
-			break;
+				break;
+			}
 		}
 
 	} catch(err) {
@@ -64,7 +67,7 @@ async function writeToDb(nameCollection: string, mockData: IAccount[] | IEvent[]
 	try {
 		await mongoose.connection.dropCollection(nameCollection); // полностью очищаем коллекцию
 
-		let arr = [];
+		const arr = [];
 
 		if (mockData.length) {
 			for(let m = 0; m < mockData.length; m++) {

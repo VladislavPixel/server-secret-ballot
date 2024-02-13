@@ -110,7 +110,7 @@ routerAccounts.post('/account/update/:id', isAdminMiddlewareFn, async (req: type
 	try {
 		const { id } = req.params;
 
-		let requestBody = req.body;
+		const requestBody = req.body;
 
 		if (!id) {
 			return res.status(400).send(payloadAccountInvalidParams);
@@ -132,7 +132,7 @@ routerAccounts.post('/account/update/:id', isAdminMiddlewareFn, async (req: type
 			return res.status(401).send(payloadUnauthorized);
 		}
 
-		if (requestBody.hasOwnProperty('password')) {
+		if (Object.prototype.hasOwnProperty.call(requestBody, 'password')) {
 			const hashPassword = await bcrypt.hash(requestBody.password, config.get('saltRounds'));
 
 			requestBody.password = hashPassword;

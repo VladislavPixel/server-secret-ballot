@@ -132,7 +132,7 @@ routerEvents.post('/event/update/:id', isAdminMiddlewareFn, async (req: typeof e
 	try {
 		const { id } = req.params;
 
-		let requestBody = req.body;
+		const requestBody = req.body;
 
 		if (!id) {
 			return res.status(400).send(payloadEventInvalidParams);

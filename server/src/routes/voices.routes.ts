@@ -83,7 +83,7 @@ routerVoices.post('/voice/:id', async (req: typeof express.Request, res: typeof 
 
 		const requestBody = req.body;
 
-		if (requestBody.hasOwnProperty('userId')) {
+		if (Object.prototype.hasOwnProperty.call(requestBody, 'userId')) {
 			const voiceTarget = await voicesModel.findOne({ idEvent: id, userId: requestBody.userId }); // двойной фильтр
 
 			return res.status(200).send([voiceTarget]);
