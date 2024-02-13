@@ -1,9 +1,9 @@
 import type { IAccount, IEvent, IVoice } from './types';
 const chalk = require('chalk');
 const mongoose = require('mongoose');
-const accountsMockData = require('./mock-data/accounts');
-const eventsMockData = require('./mock-data/events');
-const voicesMockData = require('./mock-data/voices');
+const accountsMockData: IAccount[] = require('./mock-data/accounts');
+const eventsMockData: IEvent[] = require('./mock-data/events');
+const voicesMockData: IVoice[] = require('./mock-data/voices');
 const accountModel = require('./models/account');
 const eventModel = require('./models/event');
 const voiceModel = require('./models/voice');
