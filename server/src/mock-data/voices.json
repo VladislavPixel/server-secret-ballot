@@ -1,0 +1,23 @@
+[
+	{
+		"_id": "zx1",
+		"idEvent": "12",
+		"userId": "vm1",
+		"accepted": true,
+		"denied": false
+	},
+	{
+		"_id": "zx2",
+		"idEvent": "12",
+		"userId": "vm2",
+		"accepted": true,
+		"denied": false
+	},
+	{
+		"_id": "zx3",
+		"idEvent": "12",
+		"userId": "vm3",
+		"accepted": true,
+		"denied": false
+	}
+]
