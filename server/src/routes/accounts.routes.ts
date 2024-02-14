@@ -12,6 +12,10 @@ const payloadAccountNotDeleteAdmin = require('../cores/payload-account-not-delet
 const defaultAccount: IAccount = require('../cores/default-account');
 const isAdminMiddlewareFn = require('../middleware/is-admin.middleware');
 
+const arrKeysConfig: string[] = Object.keys(config);
+
+const isConfig = arrKeysConfig.length > 0;
+
 const routerAccounts = express.Router({ mergeParams: true });
 
 routerAccounts.get('/', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
@@ -49,7 +53,7 @@ routerAccounts.post('/account/create', isAdminMiddlewareFn, async (req: typeof e
 			return res.status(401).send(payloadUnauthorized);
 		}
 
-		const hashNewPassword: string = await bcrypt.hash(password, config.get('saltRounds'));
+		const hashNewPassword: string = await bcrypt.hash(password, (isConfig ? config.get('saltRounds') : Number(process.env.SALT_ROUNDS)));
 
 		const newAccountData = await accountModel.create({ ...defaultAccount, login, password: hashNewPassword, role: 'user' });
 
@@ -133,7 +137,7 @@ routerAccounts.post('/account/update/:id', isAdminMiddlewareFn, async (req: type
 		}
 
 		if (Object.prototype.hasOwnProperty.call(requestBody, 'password')) {
-			const hashPassword = await bcrypt.hash(requestBody.password, config.get('saltRounds'));
+			const hashPassword = await bcrypt.hash(requestBody.password, (isConfig ? config.get('saltRounds') : Number(process.env.SALT_ROUNDS)));
 
 			requestBody.password = hashPassword;
 		}

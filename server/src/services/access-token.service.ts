@@ -4,6 +4,10 @@ const jwt = require('jsonwebtoken');
 const chalk = require('chalk');
 const tokenModel = require('../models/token');
 
+const arrKeysConfig: string[] = Object.keys(config);
+
+const isConfig = arrKeysConfig.length > 0;
+
 class AccessTokenService implements IAccessTokenService {
 	expiresInValue: number;
 
@@ -12,9 +16,9 @@ class AccessTokenService implements IAccessTokenService {
 	}
 
 	generateToken(controlData: IDataProp): IResultGenerateToken {
-		const accessToken = jwt.sign(controlData, config.get('accessTokenSecret'), { expiresIn: this.expiresInValue });
+		const accessToken = jwt.sign(controlData, (isConfig ? config.get('accessTokenSecret') : process.env.ACCESS_TOKEN_SECRET), { expiresIn: this.expiresInValue });
 
-		const refreshToken = jwt.sign(controlData, config.get('refreshTokenSecret'), { expiresIn: '2 days' });
+		const refreshToken = jwt.sign(controlData, (isConfig ? config.get('refreshTokenSecret') : process.env.REFRESH_TOKEN_SECRET), { expiresIn: '2 days' });
 
 		return ({
 			accessToken,
@@ -25,7 +29,7 @@ class AccessTokenService implements IAccessTokenService {
 
 	validateAccessToken(token: string): IResultValidateToken {
 		try {
-			return jwt.verify(token, config.get('accessTokenSecret'));
+			return jwt.verify(token, (isConfig ? config.get('accessTokenSecret') : process.env.ACCESS_TOKEN_SECRET));
 
 		} catch (err) {
 			console.log(err, 'Error service token. validateAccessToken');
@@ -38,7 +42,7 @@ class AccessTokenService implements IAccessTokenService {
 
 	validateRefresh(refreshToken: string): IResultValidateToken {
 		try {
-			return jwt.verify(refreshToken, config.get('refreshTokenSecret'));
+			return jwt.verify(refreshToken, (isConfig ? config.get('refreshTokenSecret') : process.env.REFRESH_TOKEN_SECRET));
 
 		} catch (err) {
 			console.log(err, 'Error service token. validateRefresh');

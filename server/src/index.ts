@@ -12,6 +12,10 @@ const path = require('node:path');
 
 dotenv.config();
 
+const arrKeysConfig: string[] = Object.keys(config);
+
+const isConfig = arrKeysConfig.length > 0;
+
 const APP: typeof express.Express = express();
 
 const PORT: string = config.get('portServer') ?
@@ -52,12 +56,12 @@ if (MODE && MODE === 'production') {
 
 async function startWork(): Promise<void> {
 	try {
-		await moongose.connect(config.get('mongoDbUrl'));
+		await moongose.connect((isConfig ? config.get('mongoDbUrl') : process.env.MONGO_DB_URL));
 
 		console.log(chalk.green.inverse('Mongodb has been started...'));
 
 		APP.listen(PORT, function() {
-			console.log(chalk.green.inverse(`Server is running at ${config.get('serverUrl')}. His mode: ${MODE}.`));
+			console.log(chalk.green.inverse(`Server is running at ${(isConfig ? config.get('serverUrl') : process.env.SERVER_URL)}. His mode: ${MODE}.`));
 
 			initializationDB(MODE);
 		});
