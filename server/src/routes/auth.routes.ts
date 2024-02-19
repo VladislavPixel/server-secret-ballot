@@ -36,7 +36,8 @@ routerAuth.post('/signIn', async (req: typeof express.Request, res: typeof expre
 
 		res.status(201).send({
 			token: tokens,
-			userId: accountData._id
+			userId: accountData._id,
+			role: accountData.role
 		});
 
 	} catch(err) {
