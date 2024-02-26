@@ -19,9 +19,9 @@ async function initializationDB(mode: string): Promise<void> {
 		switch(mode) {
 			case 'production': {
 				// в этом моде мы проводим очистку базы и инициализацию коллекций
-				writeToDb(accountsCollectionName, [accountsMockData[accountsMockData.length - 1]], accountModel);
-				writeToDb(eventsCollectionName, [], eventModel);
-				writeToDb(voicesCollectionName, [], voiceModel);
+				//writeToDb(accountsCollectionName, [accountsMockData[accountsMockData.length - 1]], accountModel);
+				//writeToDb(eventsCollectionName, [], eventModel);
+				//writeToDb(voicesCollectionName, [], voiceModel);
 
 				console.log(`Your application launch mod - ${mode}. In production, the database is not initialized with data.`);
 				break;

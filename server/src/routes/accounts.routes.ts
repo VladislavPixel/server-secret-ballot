@@ -142,12 +142,7 @@ routerAccounts.post('/account/update/:id', isAdminMiddlewareFn, async (req: type
 			requestBody.password = hashPassword;
 		}
 
-		if (currentUser.role !== 'admin') {
-			requestBody.role = 'user';
-
-		} else {
-			requestBody.role = 'admin';
-		}
+		requestBody.role = requestBody.role === 'admin' ? 'admin' : 'user';
 
 		const updatedAccount = await accountModel.findOneAndUpdate({ _id: id }, requestBody, { returnDocument: 'after', new: true });
 
