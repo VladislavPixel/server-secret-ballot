@@ -9,7 +9,9 @@
 		"isFinished": false,
 		"accepted": 3,
 		"denied": 0,
-		"votingUsers": []
+		"votingUsers": [],
+		"fullNameOfTheCandidate": "Бурунов Сергей Александрович",
+		"academicDegree": "кандидат юридических наук"
 	},
 	{
 		"_id": "123",
@@ -21,7 +23,9 @@
 		"isFinished": false,
 		"accepted": 0,
 		"denied": 0,
-		"votingUsers": []
+		"votingUsers": [],
+		"fullNameOfTheCandidate": "Макавеев Силянин Фаустович",
+		"academicDegree": "доцент"
 	},
 	{
 		"_id": "1234",
@@ -33,6 +37,8 @@
 		"isFinished": false,
 		"accepted": 0,
 		"denied": 0,
-		"votingUsers": []
+		"votingUsers": [],
+		"fullNameOfTheCandidate": "Блюжев Сидр Петрович",
+		"academicDegree": "кандидат юридических наук"
 	}
 ]
