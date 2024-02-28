@@ -18,7 +18,7 @@ const isConfig = arrKeysConfig.length > 0;
 
 const APP: typeof express.Express = express();
 
-const PORT: string = config.get('portServer') ?
+const PORT: string = isConfig && config.get('portServer') ?
 	config.get('portServer') :
 	process.env.PORT ?
 	process.env.PORT :
