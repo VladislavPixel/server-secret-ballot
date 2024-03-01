@@ -81,6 +81,7 @@ export interface IAccount {
 	password: string;
 	role: string;
 	fullName: string;
+	isMemberOfTheCountingCommission: boolean;
 };
 
 export interface IEvent {
