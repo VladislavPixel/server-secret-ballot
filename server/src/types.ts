@@ -80,6 +80,7 @@ export interface IAccount {
 	login: string;
 	password: string;
 	role: string;
+	fullName: string;
 };
 
 export interface IEvent {

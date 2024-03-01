@@ -35,9 +35,9 @@ routerAccounts.get('/', isAdminMiddlewareFn, async (req: typeof express.Request,
 
 routerAccounts.post('/account/create', isAdminMiddlewareFn, async (req: typeof express.Request, res: typeof express.Response) => {
 	try {
-		const { login, password } = req.body;
+		const { login, password, fullName } = req.body;
 
-		if (!login || !password) {
+		if (!login || !password || !fullName) {
 			return res.status(400).send(payloadAccountInvalidPayloadReq);
 		}
 
@@ -55,7 +55,7 @@ routerAccounts.post('/account/create', isAdminMiddlewareFn, async (req: typeof e
 
 		const hashNewPassword: string = await bcrypt.hash(password, (isConfig ? config.get('saltRounds') : Number(process.env.SALT_ROUNDS)));
 
-		const newAccountData = await accountModel.create({ ...defaultAccount, login, password: hashNewPassword, role: 'user' });
+		const newAccountData = await accountModel.create({ ...defaultAccount, login, fullName, password: hashNewPassword, role: 'user' });
 
 		res.status(201).send(newAccountData);
 
