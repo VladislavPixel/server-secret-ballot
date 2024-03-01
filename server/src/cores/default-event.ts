@@ -9,7 +9,8 @@ const defaultEvent: IEvent = {
 	isFinished: true,
 	accepted: 0,
 	denied: 0,
-	votingUsers: []
+	votingUsers: [],
+	membersOfTheCountingCommission: []
 };
 
 module.exports = defaultEvent;

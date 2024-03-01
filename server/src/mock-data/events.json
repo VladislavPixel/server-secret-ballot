@@ -10,6 +10,7 @@
 		"accepted": 3,
 		"denied": 0,
 		"votingUsers": [],
+		"membersOfTheCountingCommission": [],
 		"fullNameOfTheCandidate": "Бурунов Сергей Александрович",
 		"academicDegree": "кандидат юридических наук"
 	},
@@ -24,6 +25,7 @@
 		"accepted": 0,
 		"denied": 0,
 		"votingUsers": [],
+		"membersOfTheCountingCommission": [],
 		"fullNameOfTheCandidate": "Макавеев Силянин Фаустович",
 		"academicDegree": "доцент"
 	},
@@ -38,6 +40,7 @@
 		"accepted": 0,
 		"denied": 0,
 		"votingUsers": [],
+		"membersOfTheCountingCommission": [],
 		"fullNameOfTheCandidate": "Блюжев Сидр Петрович",
 		"academicDegree": "кандидат юридических наук"
 	}

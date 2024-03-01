@@ -12,6 +12,7 @@ const options = {
 	accepted: types.Number,
 	denied: types.Number,
 	votingUsers: [ types.String ],
+	membersOfTheCountingCommission: [ types.String ],
 	fullNameOfTheCandidate: types.String,
 	academicDegree: types.String
 };

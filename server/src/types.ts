@@ -81,7 +81,6 @@ export interface IAccount {
 	password: string;
 	role: string;
 	fullName: string;
-	isMemberOfTheCountingCommission: boolean;
 };
 
 export interface IEvent {
@@ -95,6 +94,7 @@ export interface IEvent {
 	accepted: number;
 	denied: number;
 	votingUsers: string[];
+	membersOfTheCountingCommission: string[];
 };
 
 export interface IVoice {
