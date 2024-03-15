@@ -14,7 +14,8 @@ const options = {
 	votingUsers: [ types.String ],
 	membersOfTheCountingCommission: [ types.String ],
 	fullNameOfTheCandidate: types.String,
-	academicDegree: types.String
+	academicDegree: types.String,
+	opportunityToVote: types.Boolean
 };
 
 const schemaEvent = new Schema(options, { _id: true });

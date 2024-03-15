@@ -95,6 +95,7 @@ export interface IEvent {
 	denied: number;
 	votingUsers: string[];
 	membersOfTheCountingCommission: string[];
+	opportunityToVote: boolean;
 };
 
 export interface IVoice {

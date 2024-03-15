@@ -12,7 +12,8 @@
 		"votingUsers": [],
 		"membersOfTheCountingCommission": [],
 		"fullNameOfTheCandidate": "Бурунов Сергей Александрович",
-		"academicDegree": "кандидат юридических наук"
+		"academicDegree": "кандидат юридических наук",
+		"opportunityToVote": true
 	},
 	{
 		"_id": "123",
@@ -27,7 +28,8 @@
 		"votingUsers": [],
 		"membersOfTheCountingCommission": [],
 		"fullNameOfTheCandidate": "Макавеев Силянин Фаустович",
-		"academicDegree": "доцент"
+		"academicDegree": "доцент",
+		"opportunityToVote": true
 	},
 	{
 		"_id": "1234",
@@ -42,6 +44,7 @@
 		"votingUsers": [],
 		"membersOfTheCountingCommission": [],
 		"fullNameOfTheCandidate": "Блюжев Сидр Петрович",
-		"academicDegree": "кандидат юридических наук"
+		"academicDegree": "кандидат юридических наук",
+		"opportunityToVote": true
 	}
 ]
