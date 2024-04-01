@@ -11,7 +11,7 @@ const defaultEvent: IEvent = {
 	denied: 0,
 	votingUsers: [],
 	membersOfTheCountingCommission: [],
-	opportunityToVote: true
+	opportunityToVote: false
 };
 
 module.exports = defaultEvent;
